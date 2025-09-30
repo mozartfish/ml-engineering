@@ -1,12 +1,12 @@
 import marimo
 
-__generated_with = "0.16.2"
+__generated_with = "0.16.3"
 app = marimo.App(width="medium")
 
 
 @app.cell
 def _():
-    import marimo as mo 
+    import marimo as mo
     return (mo,)
 
 
@@ -63,15 +63,16 @@ def _(mo):
 
 @app.cell
 def _(L):
-    import array 
-    A = array.array('i', L)
+    import array
+
+    A = array.array("i", L)
     A
     return
 
 
 @app.cell
 def _():
-    import numpy as np 
+    import numpy as np
     return (np,)
 
 
@@ -95,7 +96,7 @@ def _(np):
 
 @app.cell
 def _(np):
-    np.array([1, 2, 3, 4], dtype='float32')
+    np.array([1, 2, 3, 4], dtype="float32")
     return
 
 
@@ -195,7 +196,7 @@ def _(mo):
 
 @app.cell
 def _(np):
-    np.zeros(10, dtype='int16')
+    np.zeros(10, dtype="int16")
     return
 
 
@@ -229,22 +230,22 @@ def _(np):
 
 @app.cell
 def _(x3):
-    print("x3 ndim: ", x3.ndim) # number of dimensions 
-    print("x3 shape:", x3.shape) # size of each dimension 
-    print("x3 size: ", x3.size) # the total size of the array 
+    print("x3 ndim: ", x3.ndim)  # number of dimensions
+    print("x3 shape:", x3.shape)  # size of each dimension
+    print("x3 size: ", x3.size)  # the total size of the array
     return
 
 
 @app.cell
 def _(x3):
-    print("dtype:", x3.dtype) # dtype = array data type 
+    print("dtype:", x3.dtype)  # dtype = array data type
     return
 
 
 @app.cell
 def _(x3):
-    print("itemsize:", x3.itemsize, "bytes") # size in bytes of each element 
-    print("nbytes:", x3.nbytes, "bytes") # total size in bytes of array 
+    print("itemsize:", x3.itemsize, "bytes")  # size in bytes of each element
+    print("nbytes:", x3.nbytes, "bytes")  # total size in bytes of array
     return
 
 
@@ -397,7 +398,7 @@ def _(x2):
 
 @app.cell
 def _(x2):
-    x2[::-1, ::-1] # subarray dimensions reversed
+    x2[::-1, ::-1]  # subarray dimensions reversed
     return
 
 
@@ -434,7 +435,6 @@ def _(mo):
 @app.cell
 def _(x2):
     print(x2)
-
     return
 
 
@@ -505,26 +505,25 @@ def _(np):
 
 @app.cell
 def _(x5):
-    x5.reshape((1, 3)) # row vector via reshape
+    x5.reshape((1, 3))  # row vector via reshape
     return
 
 
 @app.cell
 def _(np, x5):
-    x5[np.newaxis, :]# row vector via new axis 
-
+    x5[np.newaxis, :]  # row vector via new axis
     return
 
 
 @app.cell
 def _(x5):
-    x5.reshape((3, 1)) # column vector via reshape
+    x5.reshape((3, 1))  # column vector via reshape
     return
 
 
 @app.cell
 def _(np, x5):
-    x5[:, np.newaxis] # column vector via newaxis
+    x5[:, np.newaxis]  # column vector via newaxis
     return
 
 
@@ -551,8 +550,7 @@ def _(np, x6, y1):
 
 @app.cell
 def _(np):
-    grid2 = np.array([[1, 2, 3],
-                     [4, 5, 6]])
+    grid2 = np.array([[1, 2, 3], [4, 5, 6]])
     return (grid2,)
 
 
@@ -565,8 +563,7 @@ def _(grid2, np):
 @app.cell
 def _(np):
     x7 = np.array([1, 2, 3])
-    grid3 = np.array([[9, 8, 7],
-                     [6, 5, 4]])
+    grid3 = np.array([[9, 8, 7], [6, 5, 4]])
     return grid3, x7
 
 
@@ -578,8 +575,7 @@ def _(grid3, np, x7):
 
 @app.cell
 def _(grid3, np):
-    y2 = np.array([[99],
-                  [99]])
+    y2 = np.array([[99], [99]])
     np.hstack([grid3, y2])
     return
 
@@ -618,6 +614,434 @@ def _(grid4, np):
     left, right = np.hsplit(grid4, [2])
     print(left)
     print(right)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""#Computation Numpy Arrays - Universal Functions""")
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""## For Loops and Vectorization""")
+    return
+
+
+@app.cell
+def _(np):
+    np.random.seed(0)
+
+
+    def compute_reciprocals(values):
+        output = np.empty(len(values))
+        for i in range(len(values)):
+            output[i] = 1.0 / values[i]
+        return output
+
+
+    values = np.random.randint(1, 10, size=5)
+    compute_reciprocals(values)
+    return compute_reciprocals, values
+
+
+@app.cell
+def _(compute_reciprocals, np):
+    big_array = np.random.randint(1, 100, size=1000000)
+
+    import time
+
+    start_time = time.time()
+    compute_reciprocals(big_array)
+    end_time = time.time()
+
+    print(f"Elapsed time: {end_time - start_time} seconds")
+    return big_array, time
+
+
+@app.cell
+def _(compute_reciprocals, values):
+    print(compute_reciprocals(values))
+    print(1.0 / values)
+    return
+
+
+@app.cell
+def _(big_array, time):
+    _start_time = time.time()
+    1.0 / big_array
+    _end_time = time.time()
+    print(f"Elapsed time: {_end_time - _start_time} seconds")
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""## Ufuncs""")
+    return
+
+
+@app.cell
+def _(np):
+    np.arange(5) / np.arange(1, 6)
+    return
+
+
+@app.cell
+def _(np):
+    x = np.arange(9).reshape((3, 3))
+    2**x
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""### Array Arithmetic""")
+    return
+
+
+@app.cell
+def _(np):
+    x12 = np.arange(4)
+    print("x     =", x12)
+    print("\nx + 5 =", x12 + 5)
+    print("\nx - 5 =", x12 - 5)
+    print("\nx * 2 =", x12 * 2)
+    print("\nx / 2 =", x12 / 2)
+    print("\nx // 2 =", x12 // 2)
+    return (x12,)
+
+
+@app.cell
+def _(x12):
+    print("-x     = ", -x12)
+    print("\nx ** 2 = ", x12**2)
+    print("\nx % 2  = ", x12 % 2)
+    return
+
+
+@app.cell
+def _(x12):
+    -((0.5 * x12 + 1) ** 2)
+    return
+
+
+@app.cell
+def _(np, x12):
+    np.add(x12, 2)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""### Absolute Value""")
+    return
+
+
+@app.cell
+def _(np):
+    x13 = np.array([-2, -1, 0, 1, 2])
+    abs(x13)
+    return (x13,)
+
+
+@app.cell
+def _(np, x13):
+    np.absolute(x13)
+    return
+
+
+@app.cell
+def _(np, x13):
+    np.abs(x13)
+    return
+
+
+@app.cell
+def _(np):
+    x14 = np.array([3 - 4j, 4 - 3j, 2 + 0j, 0 + 1j])
+    np.abs(x14)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""### Trignometric Functions""")
+    return
+
+
+@app.cell
+def _(np):
+    theta = np.linspace(0, np.pi, 3)
+
+    print("theta      = ", theta)
+    print("\nsin(theta) = ", np.sin(theta))
+    print("\ncos(theta) = ", np.cos(theta))
+    print("\ntan(theta) = ", np.tan(theta))
+    return
+
+
+@app.cell
+def _(np):
+    x15 = [-1, 0, 1]
+    print("x         = ", x15)
+    print("\narcsin(x) = ", np.arcsin(x15))
+    print("\narccos(x) = ", np.arccos(x15))
+    print("\narctan(x) = ", np.arctan(x15))
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""## Exponents and Logarithms""")
+    return
+
+
+@app.cell
+def _(np):
+    x16 = [1, 2, 3]
+    print("x     =", x16)
+    print("\ne^x   =", np.exp(x16))
+    print("\n2^x   =", np.exp2(x16))
+    print("\n3^x   =", np.power(3, x16))
+    return
+
+
+@app.cell
+def _(np):
+    x17 = [1, 2, 4, 10]
+    print("x        =", x17)
+    print("\nln(x)    =", np.log(x17))
+    print("\nlog2(x)  =", np.log2(x17))
+    print("\nlog10(x) =", np.log10(x17))
+    return
+
+
+@app.cell
+def _(np):
+    x18 = [0, 0.001, 0.01, 0.1]
+    print("exp(x) - 1 =", np.expm1(x18))
+    print("\nlog(1 + x) =", np.log1p(x18))
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""## Special Ufuncs""")
+    return
+
+
+@app.cell
+def _():
+    from scipy import special
+    return (special,)
+
+
+@app.cell
+def _(special):
+    # Gamma functions (generalized factorials) and related functions
+    x19 = [1, 5, 10]
+    print("gamma(x)     =", special.gamma(x19))
+    print("\nln|gamma(x)| =", special.gammaln(x19))
+    print("\nbeta(x, 2)   =", special.beta(x19, 2))
+    return
+
+
+@app.cell
+def _(np, special):
+    # Error function (integral of Gaussian)
+    # its complement, and its inverse
+    x20 = np.array([0, 0.3, 0.7, 1.0])
+    print("\nerf(x)  =", special.erf(x20))
+    print("\nerfc(x) =", special.erfc(x20))
+    print("\nerfinv(x) =", special.erfinv(x20))
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""## Advanced Ufuncs""")
+    return
+
+
+@app.cell
+def _(np):
+    x21 = np.arange(5)
+    y3 = np.empty(5)
+    np.multiply(x21, 10, out=y3)
+    print(y3)
+    return (x21,)
+
+
+@app.cell
+def _(np, x21):
+    y4 = np.zeros(10)
+    np.power(2, x21, out=y4[::2])
+    print(y4)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""## Aggregates""")
+    return
+
+
+@app.cell
+def _(np):
+    x22 = np.arange(1, 6)
+    np.add.reduce(x22)
+    return (x22,)
+
+
+@app.cell
+def _(np, x22):
+    np.multiply.reduce(x22)
+    return
+
+
+@app.cell
+def _(np, x22):
+    np.add.accumulate(x22)
+    return
+
+
+@app.cell
+def _(np, x22):
+    np.multiply.accumulate(x22)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""## Outer Product""")
+    return
+
+
+@app.cell
+def _(np):
+    x23 = np.arange(1, 6)
+    np.multiply.outer(x23, x23)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""# Aggregations - Min, Max, Everything in Between""")
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""## Summing Values in Array""")
+    return
+
+
+@app.cell
+def _(np):
+    L4 = np.random.random(100)
+    sum(L4)
+    return (L4,)
+
+
+@app.cell
+def _(L4, np):
+    np.sum(L4)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""Min and Max""")
+    return
+
+
+@app.cell
+def _(np):
+    big_array2= np.random.rand(1000000)
+    min(big_array2), max(big_array2)
+    return (big_array2,)
+
+
+@app.cell
+def _(big_array2):
+    print(big_array2.min(), big_array2.max(), big_array2.sum())
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""## Multi-dimensional Aggregates""")
+    return
+
+
+@app.cell
+def _(np):
+    M = np.random.random((3, 4))
+    print(M)
+    return (M,)
+
+
+@app.cell
+def _(M):
+    M.sum()
+    return
+
+
+@app.cell
+def _(M):
+    M.min(axis=0)
+    return
+
+
+@app.cell
+def _(M):
+    M.max(axis=1)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""## Aggregation Practice""")
+    return
+
+
+@app.cell
+def _(np):
+    import pandas as pd 
+    president_data = pd.read_csv("data/president_heights.csv")
+    heights = np.array(president_data['height(cm)'])
+    print(heights)
+    return (heights,)
+
+
+@app.cell
+def _(heights):
+    print("Mean height:       ", heights.mean())
+    print("Standard deviation:", heights.std())
+    print("Minimum height:    ", heights.min())
+    print("Maximum height:    ", heights.max())
+    return
+
+
+@app.cell
+def _(heights, np):
+    print("25th percentile:   ", np.percentile(heights, 25))
+    print("Median:            ", np.median(heights))
+    print("75th percentile:   ", np.percentile(heights, 75))
+    return
+
+
+@app.cell
+def _(heights):
+    import matplotlib.pyplot as plt 
+    import seaborn 
+    seaborn.set()
+    plt.hist(heights)
+    plt.title('Height Distribution of US Presidents')
+    plt.xlabel('height (cm)')
+    plt.ylabel('number')
     return
 
 
