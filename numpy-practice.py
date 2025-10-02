@@ -692,7 +692,7 @@ def _(np):
 def _(np):
     x = np.arange(9).reshape((3, 3))
     2**x
-    return
+    return (x,)
 
 
 @app.cell
@@ -1013,7 +1013,7 @@ def _(np):
     president_data = pd.read_csv("data/president_heights.csv")
     heights = np.array(president_data['height(cm)'])
     print(heights)
-    return (heights,)
+    return heights, pd
 
 
 @app.cell
@@ -1042,6 +1042,511 @@ def _(heights):
     plt.title('Height Distribution of US Presidents')
     plt.xlabel('height (cm)')
     plt.ylabel('number')
+    return (plt,)
+
+
+@app.cell
+def _(mo):
+    mo.md("""# Computation on Arrays - Broadcasting""")
+    return
+
+
+@app.cell
+def _(np):
+    a1 = np.arange(0, 3)
+    b1 = np.array([5, 5, 5])
+    a1 + b1
+    return (a1,)
+
+
+@app.cell
+def _(a1):
+    a1 + 5
+    return
+
+
+@app.cell
+def _(np):
+    M2 = np.ones((3, 3))
+    M2
+    return (M2,)
+
+
+@app.cell
+def _(M2, a1):
+    M2 + a1
+    return
+
+
+@app.cell
+def _(np):
+    a2 = np.arange(3)
+    b2 = np.arange(3)[:, np.newaxis]
+    print(a2)
+    print(b2)
+    return a2, b2
+
+
+@app.cell
+def _(a2, b2):
+    a2 + b2
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""## Rules of Broadcasting""")
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""
+    1. If the two arrays differ in their number of dimensions, the shape of the one with fewer dimensions is padded with ones on its leading (left) side.
+
+    2. If the shape of the two arrays does not match in any dimension, the array with shape equal to 1 in that dimension is stretched to match the other shape.
+
+    3. If in any dimension the sizes disagree and neither is equal to 1, an error is raised.
+    """)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""### Broadcasting - Two-dimensional-One Dimensional Case""")
+    return
+
+
+@app.cell
+def _(a1, np):
+    M3 = np.ones((2, 3))
+    a3 = np.arange(3)
+
+    print(M3)
+    print(a1)
+    return (M3,)
+
+
+@app.cell
+def _(M3, a2):
+    M3 + a2
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""### Broadcasting - Different Dimensions""")
+    return
+
+
+@app.cell
+def _(np):
+    a4 = np.arange(3).reshape((3, 1))
+    b4 = np.arange(3)
+
+    print(a4)
+    print(b4)
+    return a4, b4
+
+
+@app.cell
+def _(a4, b4):
+    a4 + b4
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""### Broadcasting 3 - Non-Compatible Arrays""")
+    return
+
+
+@app.cell
+def _(np):
+    M4 = np.ones((3, 2))
+    a5 = np.arange(3)
+    return M4, a5
+
+
+@app.cell
+def _(M4, a5, np):
+    # M4 + a5
+    a5[:, np.newaxis].shape
+    M4 + a5[:, np.newaxis]
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""### Other Functions""")
+    return
+
+
+@app.cell
+def _(M4, a5, np):
+    np.logaddexp(M4, a5[:, np.newaxis])
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""## Applying Broadcasting""")
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""### Centering Array""")
+    return
+
+
+@app.cell
+def _(np, x):
+    X = np.random.random((10, 3))
+    x
+    return (X,)
+
+
+@app.cell
+def _(X):
+    Xmean = X.mean(0)
+    Xmean
+    return (Xmean,)
+
+
+@app.cell
+def _(X, Xmean):
+    X_centered = X - Xmean
+    X_centered
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""### Plotting 2-D Functions""")
+    return
+
+
+@app.cell
+def _(np, plt):
+    x24 = np.linspace(0, 5, 50)
+    y5 = np.linspace(0, 5, 50)[:, np.newaxis]
+    z2 = np.sin(x24) ** 10 + np.cos(10 + y5 * x24) * np.cos(x24)
+
+    plt.imshow(z2, origin='lower', extent=[0, 5, 0, 5],
+               cmap='viridis')
+    plt.colorbar();
+    plt.show()
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""# Comparisons, Masks and Booleans""")
+    return
+
+
+@app.cell
+def _(pd):
+    rainfall = pd.read_csv('data/Seattle2014.csv')['PRCP'].values 
+    inches = rainfall / 254.0 
+    inches.shape
+    return (inches,)
+
+
+@app.cell
+def _(inches, plt):
+    plt.hist(inches, 40)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""## Comparison UFuncs""")
+    return
+
+
+@app.cell
+def _(np):
+    x25 = np.arange(1, 6)
+    return (x25,)
+
+
+@app.cell
+def _(x25):
+    x25 < 3
+    return
+
+
+@app.cell
+def _(x25):
+    x25 > 3
+    return
+
+
+@app.cell
+def _(x25):
+    x25 <= 3
+    return
+
+
+@app.cell
+def _(x25):
+    x25 >= 3
+    return
+
+
+@app.cell
+def _(x25):
+    x25 != 3
+    return
+
+
+@app.cell
+def _(x25):
+    x25 == 3
+    return
+
+
+@app.cell
+def _(x25):
+    (2 * x25) == (x25 ** 2)
+    return
+
+
+@app.cell
+def _(np):
+    rng = np.random.RandomState(0)
+    x26 = rng.randint(10, size=(3, 4))
+    x26
+    return (x26,)
+
+
+@app.cell
+def _(x26):
+    x26 < 6
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""## Boolean Arrays""")
+    return
+
+
+@app.cell
+def _(x26):
+    print(x26)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""### Counting""")
+    return
+
+
+@app.cell
+def _(np, x26):
+    # how many values less than 6?
+    np.count_nonzero(x26 < 6)
+    return
+
+
+@app.cell
+def _(np, x26):
+    np.sum(x26 < 6)
+    return
+
+
+@app.cell
+def _(np, x26):
+    # how many values less than 6 in each row?
+    np.sum(x26 < 6, axis=1)
+    return
+
+
+@app.cell
+def _(np, x26):
+    # are there any values greater than 8?
+    np.any(x26 > 8)
+    return
+
+
+@app.cell
+def _(np, x26):
+    # are there any values less than zero?
+    np.any(x26 < 0)
+    return
+
+
+@app.cell
+def _(np, x26):
+    # are all values less than 10?
+    np.all(x26 < 10)
+    return
+
+
+@app.cell
+def _(np, x26):
+    # are all values equal to 6?
+    np.all(x26 == 6)
+    return
+
+
+@app.cell
+def _(np, x26):
+    # are all values in each row less than 8?
+    np.all(x26 < 8, axis=1)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""### Boolean Operators""")
+    return
+
+
+@app.cell
+def _(inches, np):
+    np.sum((inches > 0.5) & (inches < 1))
+    return
+
+
+@app.cell
+def _(inches, np):
+    np.sum(~( (inches <= 0.5) | (inches >= 1) ))
+    return
+
+
+@app.cell
+def _(inches, np):
+    print("Number days without rain:      ", np.sum(inches == 0))
+    print("Number days with rain:         ", np.sum(inches != 0))
+    print("Days with more than 0.5 inches:", np.sum(inches > 0.5))
+    print("Rainy days with < 0.2 inches  :", np.sum((inches > 0) &
+                                                    (inches < 0.2)))
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""## Boolean Arrays as Masks""")
+    return
+
+
+@app.cell
+def _(x26):
+    x26
+    return
+
+
+@app.cell
+def _(x26):
+    x26 < 5
+    return
+
+
+@app.cell
+def _(x26):
+    x26[x26 < 5]
+    return
+
+
+@app.cell
+def _(inches, np):
+    # construct a mask of all rainy days
+    rainy = (inches > 0)
+
+    # construct a mask of all summer days (June 21st is the 172nd day)
+    days = np.arange(365)
+    summer = (days > 172) & (days < 262)
+
+    print("Median precip on rainy days in 2014 (inches):   ",
+          np.median(inches[rainy]))
+    print("Median precip on summer days in 2014 (inches):  ",
+          np.median(inches[summer]))
+    print("Maximum precip on summer days in 2014 (inches): ",
+          np.max(inches[summer]))
+    print("Median precip on non-summer rainy days (inches):",
+          np.median(inches[rainy & ~summer]))
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""## Aside - Keywords""")
+    return
+
+
+@app.cell
+def _():
+    bool(42), bool(0)
+    return
+
+
+@app.cell
+def _():
+    bool(42 and 0)
+    return
+
+
+@app.cell
+def _():
+    bool(42 or 0)
+    return
+
+
+@app.cell
+def _():
+    bin(42)
+    return
+
+
+@app.cell
+def _():
+    bin(59)
+    return
+
+
+@app.cell
+def _():
+    bin(42 & 59)
+    return
+
+
+@app.cell
+def _():
+    bin(42 | 59)
+    return
+
+
+@app.cell
+def _(np):
+    A = np.array([1, 0, 1, 0, 1, 0], dtype=bool)
+    B = np.array([1, 1, 1, 0, 1, 1], dtype=bool)
+    A | B
+    return
+
+
+@app.cell
+def _(np):
+    # A or B
+    x27 = np.arange(10)
+    (x27 > 4) & (x27 < 8) # always use this for numpy arrays 
+    # (x > 4) and (x < 8)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""# Fancy Indexing""")
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""# Structured Data - Numpy Structured Arrays""")
     return
 
 
